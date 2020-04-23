@@ -1,22 +1,24 @@
 package nsu.android.todolist.View;
 
-import android.content.Intent;
 import android.os.Bundle;
 
+import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
-import nsu.android.todolist.Model.SQLiteStorage;
-import nsu.android.todolist.Presenter.Presenter;
+import java.util.ArrayList;
+import java.util.List;
+
+import nsu.android.todolist.MyAdapter;
+import nsu.android.todolist.Presenter.PresenterList;
 import nsu.android.todolist.R;
 
 public class NotesList extends AppCompatActivity {
 
-    Presenter presenter;
-
-    private SQLiteStorage sqliteStorage;
+    PresenterList presenter;
 
     private FloatingActionButton createButton;
 
@@ -24,24 +26,20 @@ public class NotesList extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.notes_list);
+        //ItemActivity.onCreate(savedInstanceState);
 
-        presenter = new Presenter("NotesListPresenter");
+        createButton = findViewById(R.id.create_button);
 
-        sqliteStorage = new SQLiteStorage(this);
-
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-
-
-        createButton = findViewById(R.id.create_fab);
-
+        presenter = new PresenterList(this);
+        presenter.onCreateEvent();
 
         createButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(NotesList.this, CreateNoteActivity.class);
-                startActivity(intent);
+                presenter.newNoteEvent();
             }
         });
     }
+
+
 }

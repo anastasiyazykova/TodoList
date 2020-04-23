@@ -20,6 +20,7 @@
         <activity android:name=".View.CreateNoteActivity" />
 
         <activity android:name=".View.NoteActivity" />
+        <activity android:name=".View.ItemActivity" />
     </application>
 
 </manifest>

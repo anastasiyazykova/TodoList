@@ -18,8 +18,8 @@ public class NoteActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_note);
 
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+        //Toolbar toolbar = findViewById(R.id.toolbar);
+        //setSupportActionBar(toolbar);
 
         noteTv = findViewById(R.id.text_tv);
     }

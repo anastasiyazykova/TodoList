@@ -7,16 +7,16 @@ import java.util.UUID;
 
 public final class Task {
     private final String uuid;
-    private final Date dateCreate;
-    private final Date dateChange;
+    private final String dateCreate;
 
+    private String dateChange;
     private String name;
     private String shortText;
     private String fullText;
     private boolean isDone;
 
 
-    public Task(final Date dateCreate, final Date dateChange,
+    public Task(final String dateCreate, String dateChange,
                 String name, String shortText, String fullText, boolean isDone) {
         this.uuid = UUID.randomUUID().toString();
         this.dateCreate = dateCreate;
@@ -33,23 +33,23 @@ public final class Task {
         return uuid;
     }
 
-    public Date getDateCreate() {
+    public String getDateCreate() {
         return dateCreate;
     }
 
-    public Date getDateChange() {
+    public String getDateChange() {
         return dateChange;
     }
 
-    public String shortText() {
+    public String getShortText() {
         return shortText;
     }
 
-    public String fullText() {
+    public String getFullText() {
         return fullText;
     }
 
-    public boolean isDone() {
+    public boolean getIsDone() {
         return isDone;
     }
 
