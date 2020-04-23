@@ -10,13 +10,17 @@
         android:id="@+id/notes_recyc"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:scrollbars="vertical" />
+        android:scrollbars="vertical"
+        android:layout_marginBottom="10dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginTop="10dp" />
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/create_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="16dp"
+        android:layout_margin="3dp"
         app:layout_anchor="@id/notes_recyc"
         app:layout_anchorGravity="bottom|end"
         app:srcCompat="@drawable/ic_add_black_24dp"
