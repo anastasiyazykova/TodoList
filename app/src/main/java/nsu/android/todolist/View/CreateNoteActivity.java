@@ -47,7 +47,8 @@ public class CreateNoteActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 presenter.newNoteEvent(name.getText().toString(), shortText.getText().toString(), fullText.getText().toString());
-                System.out.println("finish create ivent");
+                //обновить главную
+                //System.out.println("finish create ivent");
             }
         });
 

@@ -50,4 +50,8 @@ public class PresenterList {
         mAdapter = new MyAdapter(tasks);
         recyclerView.setAdapter(mAdapter);
     }
+
+    public void recreateEvent() {
+        onCreateEvent();
+    }
 }

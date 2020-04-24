@@ -4,108 +4,74 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/coordinator"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="wrap_content"
+    >
 
         <LinearLayout
+            android:id="@+id/linear"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:layout_marginBottom="10dp">
+            android:layout_marginBottom="10dp"
+            android:background="@mipmap/ic_launcher_foreground">
+
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Название:" />
+                android:text="Название:"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="10dp"/>
 
             <TextView
                 android:id="@+id/item_task_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textSize="15sp"
-                android:textColor="@color/colorBlack"/>
+                android:textColor="@color/colorBlack"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="15dp"
+                />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Краткое описание:" />
+                android:text="Краткое описание:"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="10dp"/>
 
             <TextView
                 android:id="@+id/item_short_text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textSize="14sp"
-                android:textColor="@color/colorBlack">
-
-            </TextView>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Подробное описание:" />
-
-            <TextView
-                android:id="@+id/item_full_text"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textSize="13sp"
-                android:textColor="@color/colorBlack">
+                android:textColor="@color/colorBlack"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="15dp">
 
             </TextView>
 
             <LinearLayout
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:layout_gravity="right">
 
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:layout_marginRight="40dp">
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal">
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Создано:   " />
-
-                        <TextView
-                            android:id="@+id/item_create_data"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content" />
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal">
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Изменено:   " />
+                        android:text="Выполнено:   "
+                        android:textSize="20sp"
+                        android:layout_marginTop="10dp"/>
 
-                    <TextView
-                        android:id="@+id/item_change_data"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
-                    </LinearLayout>
-                </LinearLayout>
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Выполнено:   " />
-
-                <android.support.v7.widget.AppCompatCheckBox
-                    android:id="@+id/is_done"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    <android.support.v7.widget.AppCompatCheckBox
+                        android:id="@+id/is_done"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:layout_marginTop="10dp"
+                        />
             </LinearLayout>
-
         </LinearLayout>
 
 </android.support.design.widget.CoordinatorLayout>

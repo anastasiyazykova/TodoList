@@ -57,6 +57,36 @@ public class SQLiteStorage {
         return tasks;
     }
 
+    public Task getTask (String name) {
+        Cursor cursor = database.query(Schema.TaskTable.NAME, null, null, null, null, null, null);
+
+        if (cursor.moveToFirst()) {
+            int nameColumnIndex = cursor.getColumnIndex(Schema.TaskTable.Columns.NAME);
+            String name1;
+            do {
+                name1 = cursor.getString(nameColumnIndex);
+            } while (cursor.moveToNext() && !name1.equals(name));
+        } else {
+            Log.d(LOG_TAG, "There are 0 rows in table.");
+        }
+
+        final int dateCreateColumnIndex = cursor.getColumnIndex(Schema.TaskTable.Columns.DATE_CREATE);
+        int dateChangeColumnIndex = cursor.getColumnIndex(Schema.TaskTable.Columns.DATE_CHANGE);
+        int shortTextColumnIndex = cursor.getColumnIndex(Schema.TaskTable.Columns.SHORT_TEXT);
+        int fullTextColumnIndex = cursor.getColumnIndex(Schema.TaskTable.Columns.FULL_TEXT);
+        int isDoneColumnIndex = cursor.getColumnIndex(Schema.TaskTable.Columns.IS_DONE);
+        String dateCreate = cursor.getString(dateCreateColumnIndex);
+        String dateChange = cursor.getString(dateChangeColumnIndex);
+        String shortText = cursor.getString(shortTextColumnIndex);
+        String fullText = cursor.getString(fullTextColumnIndex);
+        String isDone = cursor.getString(isDoneColumnIndex);
+
+        Task task = new Task(dateCreate, dateChange, name, shortText, fullText, Boolean.parseBoolean(isDone));
+
+        cursor.close();
+        return task;
+    }
+
     /*public void deleteAllUsers() {
         final int count = database.delete(AppDBSchema.TaskTable.NAME, null, null);
         Log.d(LOG_TAG, "" + count + "was successfully removed.");
@@ -74,5 +104,9 @@ public class SQLiteStorage {
         contentValues.put(Schema.TaskTable.Columns.IS_DONE, task.getIsDone());
 
         return contentValues;
+    }
+
+    public void deleteTask(String name) {
+        database.delete(Schema.TaskTable.NAME, "name = " + name, null);
     }
 }
