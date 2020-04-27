@@ -107,6 +107,43 @@ public class SQLiteStorage {
     }
 
     public void deleteTask(String name) {
-        database.delete(Schema.TaskTable.NAME, "name = " + name, null);
+        database.delete(Schema.TaskTable.NAME, Schema.TaskTable.Columns.NAME + " = ?", new String[]{name});
+    }
+
+    public void updateTask(String oldName, Task myTask) {
+        deleteTask(oldName);
+        addTask(myTask);
+    }
+
+    public Task getTaskByUuid(String uuid) {
+        Cursor cursor = database.query(Schema.TaskTable.NAME, null, null, null, null, null, null);
+
+        if (cursor.moveToFirst()) {
+            int uuidColumnIndex = cursor.getColumnIndex(Schema.TaskTable.Columns.UUID);
+            String uuid1;
+            do {
+                uuid1 = cursor.getString(uuidColumnIndex);
+            } while (cursor.moveToNext() && !uuid1.equals(uuid));
+        } else {
+            Log.d(LOG_TAG, "There are 0 rows in table.");
+        }
+
+        int dateCreateColumnIndex = cursor.getColumnIndex(Schema.TaskTable.Columns.DATE_CREATE);
+        int dateChangeColumnIndex = cursor.getColumnIndex(Schema.TaskTable.Columns.DATE_CHANGE);
+        int shortTextColumnIndex = cursor.getColumnIndex(Schema.TaskTable.Columns.SHORT_TEXT);
+        int fullTextColumnIndex = cursor.getColumnIndex(Schema.TaskTable.Columns.FULL_TEXT);
+        int isDoneColumnIndex = cursor.getColumnIndex(Schema.TaskTable.Columns.IS_DONE);
+        int nameColumnIndex = cursor.getColumnIndex(Schema.TaskTable.Columns.NAME);
+        String dateCreate = cursor.getString(dateCreateColumnIndex);
+        String dateChange = cursor.getString(dateChangeColumnIndex);
+        String shortText = cursor.getString(shortTextColumnIndex);
+        String fullText = cursor.getString(fullTextColumnIndex);
+        String isDone = cursor.getString(isDoneColumnIndex);
+        String name = cursor.getString(nameColumnIndex);
+
+        Task task = new Task(dateCreate, dateChange, name, shortText, fullText, Boolean.parseBoolean(isDone));
+
+        cursor.close();
+        return task;
     }
 }

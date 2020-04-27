@@ -1,8 +1,5 @@
 package nsu.android.todolist.Model;
 
-import android.support.annotation.NonNull;
-
-import java.util.Date;
 import java.util.UUID;
 
 public final class Task {
@@ -57,4 +54,23 @@ public final class Task {
         return name;
     }
 
+    public void setIsDone(boolean b) {
+        isDone = b;
+    }
+
+    public void setName(String s) {
+        name = s;
+    }
+
+    public void setShortText(String s) {
+        shortText = s;
+    }
+
+    public void setFullText(String s) {
+        fullText = s;
+    }
+
+    public void setChangeData(String s) {
+        dateChange = s;
+    }
 }

@@ -1,18 +1,13 @@
 package nsu.android.todolist.Presenter;
 
 import android.content.Intent;
-import android.support.design.widget.CoordinatorLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.widget.CheckBox;
-import android.widget.TextView;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import nsu.android.todolist.Model.SQLiteStorage;
 import nsu.android.todolist.Model.Task;
-import nsu.android.todolist.MyAdapter;
 import nsu.android.todolist.R;
 import nsu.android.todolist.View.CreateNoteActivity;
 import nsu.android.todolist.View.NotesList;
@@ -47,7 +42,7 @@ public class PresenterList {
         recyclerView.setLayoutManager(layoutManager);
         List<Task> tasks = sqliteStorage.getAllTasks();
 
-        mAdapter = new MyAdapter(tasks);
+        mAdapter = new MyAdapter(tasks, notesList);
         recyclerView.setAdapter(mAdapter);
     }
 

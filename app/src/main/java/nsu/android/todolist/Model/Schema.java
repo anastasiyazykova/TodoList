@@ -10,7 +10,7 @@ public class Schema {
 
             public static final String UUID = "uuid";
             public static String NAME = "name";
-            public static final String DATE_CREATE = "dateCreate";
+            public static String DATE_CREATE = "dateCreate";
             public static String DATE_CHANGE = "dateChange";
             public static String SHORT_TEXT = "shortText";
             public static String FULL_TEXT = "fullText";

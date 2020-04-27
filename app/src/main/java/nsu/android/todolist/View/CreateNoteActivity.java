@@ -1,6 +1,7 @@
 package nsu.android.todolist.View;
 
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
@@ -21,34 +22,46 @@ public class CreateNoteActivity extends AppCompatActivity {
     FloatingActionButton buttonOk;
     FloatingActionButton buttonBack;
 
-    TextInputEditText name;
-    TextInputEditText shortText;
-    TextInputEditText fullText;
+    public TextInputEditText name;
+    public TextInputEditText shortText;
+    public TextInputEditText fullText;
 
+    int flag;
+    public String oldName;
+    public String oldDate;
 
     @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
+    protected void onCreate(@Nullable final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_note);
 
         presenter = new PresenterCreate(this);
 
-        //Toolbar toolbar = findViewById(R.id.toolbar);
-        //setSupportActionBar(toolbar);
-
         buttonOk = findViewById(R.id.finishcreate);
         buttonBack = findViewById(R.id.back_button);
-
         name = findViewById(R.id.task_name);
         shortText = findViewById(R.id.short_text);
         fullText = findViewById(R.id.full_text);
 
+        final Intent intent = getIntent();
+        Bundle b = intent.getExtras();
+        if (b != null) {
+            flag = 2;
+            presenter.setData(b);
+
+        } else {
+            flag = 1;
+        }
+
         buttonOk.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                presenter.newNoteEvent(name.getText().toString(), shortText.getText().toString(), fullText.getText().toString());
-                //обновить главную
-                //System.out.println("finish create ivent");
+                if (flag == 1) {
+                    presenter.newNoteEvent(name.getText().toString(), shortText.getText().toString(), fullText.getText().toString());
+                }
+                if (flag == 2) {
+                    presenter.changeEvent(name.getText().toString(), shortText.getText().toString(), fullText.getText().toString());
+                }
             }
         });
 
