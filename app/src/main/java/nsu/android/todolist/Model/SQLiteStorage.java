@@ -32,6 +32,7 @@ public class SQLiteStorage {
         Cursor cursor = database.query(Schema.TaskTable.NAME, null, null, null, null, null, null);
 
         if (cursor.moveToFirst()) {
+
             int nameColumnIndex = cursor.getColumnIndex(Schema.TaskTable.Columns.NAME);
             final int dateCreateColumnIndex = cursor.getColumnIndex(Schema.TaskTable.Columns.DATE_CREATE);
             int dateChangeColumnIndex = cursor.getColumnIndex(Schema.TaskTable.Columns.DATE_CHANGE);
@@ -39,6 +40,7 @@ public class SQLiteStorage {
             int fullTextColumnIndex = cursor.getColumnIndex(Schema.TaskTable.Columns.FULL_TEXT);
             int isDoneColumnIndex = cursor.getColumnIndex(Schema.TaskTable.Columns.IS_DONE);
             do {
+
                 String name = cursor.getString(nameColumnIndex);
                 String dateCreate = cursor.getString(dateCreateColumnIndex);
                 String dateChange = cursor.getString(dateChangeColumnIndex);
@@ -46,7 +48,8 @@ public class SQLiteStorage {
                 String fullText = cursor.getString(fullTextColumnIndex);
                 String isDone = cursor.getString(isDoneColumnIndex);
 
-                Task task = new Task(dateCreate, dateChange, name, shortText, fullText, Boolean.parseBoolean(isDone));
+                Task task = new Task(dateCreate, dateChange, name, shortText, fullText, isDone);
+
                 tasks.add(task);
             } while (cursor.moveToNext());
         } else {
@@ -75,13 +78,14 @@ public class SQLiteStorage {
         int shortTextColumnIndex = cursor.getColumnIndex(Schema.TaskTable.Columns.SHORT_TEXT);
         int fullTextColumnIndex = cursor.getColumnIndex(Schema.TaskTable.Columns.FULL_TEXT);
         int isDoneColumnIndex = cursor.getColumnIndex(Schema.TaskTable.Columns.IS_DONE);
+
         String dateCreate = cursor.getString(dateCreateColumnIndex);
         String dateChange = cursor.getString(dateChangeColumnIndex);
         String shortText = cursor.getString(shortTextColumnIndex);
         String fullText = cursor.getString(fullTextColumnIndex);
         String isDone = cursor.getString(isDoneColumnIndex);
 
-        Task task = new Task(dateCreate, dateChange, name, shortText, fullText, Boolean.parseBoolean(isDone));
+        Task task = new Task(dateCreate, dateChange, name, shortText, fullText, isDone);
 
         cursor.close();
         return task;
@@ -95,7 +99,7 @@ public class SQLiteStorage {
     private ContentValues getContentValues(Task task) {
         ContentValues contentValues = new ContentValues();
 
-        contentValues.put(Schema.TaskTable.Columns.UUID, task.getUuid());
+        //contentValues.put(Schema.TaskTable.Columns.UUID, task.getUuid());
         contentValues.put(Schema.TaskTable.Columns.NAME, task.getName());
         contentValues.put(Schema.TaskTable.Columns.DATE_CREATE, task.getDateCreate());
         contentValues.put(Schema.TaskTable.Columns.DATE_CHANGE, task.getDateChange());
@@ -110,40 +114,8 @@ public class SQLiteStorage {
         database.delete(Schema.TaskTable.NAME, Schema.TaskTable.Columns.NAME + " = ?", new String[]{name});
     }
 
-    public void updateTask(String oldName, Task myTask) {
-        deleteTask(oldName);
+    public void updateTask(String name, Task myTask) {
+        deleteTask(name);
         addTask(myTask);
-    }
-
-    public Task getTaskByUuid(String uuid) {
-        Cursor cursor = database.query(Schema.TaskTable.NAME, null, null, null, null, null, null);
-
-        if (cursor.moveToFirst()) {
-            int uuidColumnIndex = cursor.getColumnIndex(Schema.TaskTable.Columns.UUID);
-            String uuid1;
-            do {
-                uuid1 = cursor.getString(uuidColumnIndex);
-            } while (cursor.moveToNext() && !uuid1.equals(uuid));
-        } else {
-            Log.d(LOG_TAG, "There are 0 rows in table.");
-        }
-
-        int dateCreateColumnIndex = cursor.getColumnIndex(Schema.TaskTable.Columns.DATE_CREATE);
-        int dateChangeColumnIndex = cursor.getColumnIndex(Schema.TaskTable.Columns.DATE_CHANGE);
-        int shortTextColumnIndex = cursor.getColumnIndex(Schema.TaskTable.Columns.SHORT_TEXT);
-        int fullTextColumnIndex = cursor.getColumnIndex(Schema.TaskTable.Columns.FULL_TEXT);
-        int isDoneColumnIndex = cursor.getColumnIndex(Schema.TaskTable.Columns.IS_DONE);
-        int nameColumnIndex = cursor.getColumnIndex(Schema.TaskTable.Columns.NAME);
-        String dateCreate = cursor.getString(dateCreateColumnIndex);
-        String dateChange = cursor.getString(dateChangeColumnIndex);
-        String shortText = cursor.getString(shortTextColumnIndex);
-        String fullText = cursor.getString(fullTextColumnIndex);
-        String isDone = cursor.getString(isDoneColumnIndex);
-        String name = cursor.getString(nameColumnIndex);
-
-        Task task = new Task(dateCreate, dateChange, name, shortText, fullText, Boolean.parseBoolean(isDone));
-
-        cursor.close();
-        return task;
     }
 }

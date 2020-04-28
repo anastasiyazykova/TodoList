@@ -26,11 +26,20 @@ public class DetailNote extends AppCompatActivity {
 
     FloatingActionButton deleteButton;
     FloatingActionButton changeButton;
+    FloatingActionButton shareButton;
 
     PresenterDetail presenter;
 
-    public String oldName;
-    public String uuid;
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (data == null) {
+            return;
+        }
+        name.setText(data.getStringExtra("name"));
+        shortText.setText(data.getStringExtra("shortText"));
+        fullText.setText(data.getStringExtra("fullText"));
+        changeDate.setText(data.getStringExtra("changeDate"));
+    }
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -45,12 +54,12 @@ public class DetailNote extends AppCompatActivity {
 
         changeButton = findViewById(R.id.detail_change_button);
         deleteButton = findViewById(R.id.detail_del_button);
+        shareButton = findViewById(R.id.detail_share_button);
 
         changeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 presenter.onChangeEvent();
-                //presenter.updateEvent();
             }
         });
 
@@ -60,14 +69,19 @@ public class DetailNote extends AppCompatActivity {
                 createAlertDialog();
             }
         });
+        shareButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                presenter.sendEvent();
+            }
+        });
 
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        presenter.updateEvent();
-
+        //presenter.updateEvent();
     }
 
 

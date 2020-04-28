@@ -1,5 +1,6 @@
 package nsu.android.todolist.Presenter;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Toast;
 
@@ -10,10 +11,10 @@ import java.util.List;
 import java.util.Locale;
 
 import nsu.android.todolist.Model.SQLiteStorage;
-import nsu.android.todolist.Model.Schema;
 import nsu.android.todolist.Model.Task;
 import nsu.android.todolist.View.CreateNoteActivity;
-import nsu.android.todolist.View.NotesList;
+
+import static android.app.Activity.RESULT_OK;
 
 public class PresenterCreate {
 
@@ -42,7 +43,7 @@ public class PresenterCreate {
         }
 
         if (!flag) {
-            sqliteStorage.addTask(new Task(dateText, dateText, n, s, f, false));
+            sqliteStorage.addTask(new Task(dateText, dateText, n, s, f, "false"));
         }
 
         createNoteActivity.onBackPressed();
@@ -58,6 +59,7 @@ public class PresenterCreate {
         createNoteActivity.fullText.setText(b.getString("fullText"));
         createNoteActivity.oldName = createNoteActivity.name.getText().toString();
         createNoteActivity.oldDate = b.getString("oldDate");
+        createNoteActivity.uuid = b.getString("uuid");
     }
 
     public void changeEvent(String n, String s, String f) {
@@ -77,12 +79,19 @@ public class PresenterCreate {
             myTask.setName(n);
             myTask.setShortText(s);
             myTask.setFullText(f);
-            myTask.setChangeData(dateText);
+            myTask.setChangeDate(dateText);
         }
 
         sqliteStorage.updateTask(createNoteActivity.oldName, myTask);
 
-        createNoteActivity.onBackPressed();
+        Intent intent = new Intent();
+        intent.putExtra("name", n);
+        intent.putExtra("shortText", s);
+        intent.putExtra("fullText", f);
+        intent.putExtra("changeDate", dateText);
+
+        createNoteActivity.setResult(RESULT_OK, intent);
+        createNoteActivity.finish();
     }
 
 }

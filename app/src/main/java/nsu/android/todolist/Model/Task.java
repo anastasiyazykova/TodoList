@@ -3,18 +3,18 @@ package nsu.android.todolist.Model;
 import java.util.UUID;
 
 public final class Task {
-    private final String uuid;
+    private String uuid;
     private final String dateCreate;
 
     private String dateChange;
     private String name;
     private String shortText;
     private String fullText;
-    private boolean isDone;
+    private String isDone;
 
 
     public Task(final String dateCreate, String dateChange,
-                String name, String shortText, String fullText, boolean isDone) {
+                String name, String shortText, String fullText, String isDone) {
         this.uuid = UUID.randomUUID().toString();
         this.dateCreate = dateCreate;
         this.dateChange = dateChange;
@@ -24,10 +24,6 @@ public final class Task {
         this.fullText = fullText;
         this.isDone = isDone;
 
-    }
-
-    public String getUuid() {
-        return uuid;
     }
 
     public String getDateCreate() {
@@ -46,7 +42,7 @@ public final class Task {
         return fullText;
     }
 
-    public boolean getIsDone() {
+    public String getIsDone() {
         return isDone;
     }
 
@@ -54,7 +50,7 @@ public final class Task {
         return name;
     }
 
-    public void setIsDone(boolean b) {
+    public void setIsDone(String b) {
         isDone = b;
     }
 
@@ -70,7 +66,8 @@ public final class Task {
         fullText = s;
     }
 
-    public void setChangeData(String s) {
+    public void setChangeDate(String s) {
         dateChange = s;
     }
+
 }

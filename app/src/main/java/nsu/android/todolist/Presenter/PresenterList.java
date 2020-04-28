@@ -18,7 +18,7 @@ public class PresenterList {
     private SQLiteStorage sqliteStorage;
 
     private RecyclerView recyclerView;
-    private RecyclerView.Adapter mAdapter;
+    private MyAdapter mAdapter;
     private RecyclerView.LayoutManager layoutManager;
 
 
@@ -44,9 +44,29 @@ public class PresenterList {
 
         mAdapter = new MyAdapter(tasks, notesList);
         recyclerView.setAdapter(mAdapter);
+        mAdapter.setPresenter(this);
     }
 
     public void recreateEvent() {
         onCreateEvent();
+    }
+
+    public void changeBox(boolean b, String name) {
+        List<Task> tasks = sqliteStorage.getAllTasks();
+        Task task = null;
+        for (Task t : tasks) {
+            if (name.equals(t.getName())) {
+                task = t;
+            }
+        }
+
+        if (b) {
+            task.setIsDone("true");
+        } else {
+            task.setIsDone("false");
+        }
+
+        sqliteStorage.updateTask(name, task);
+        recreateEvent();
     }
 }

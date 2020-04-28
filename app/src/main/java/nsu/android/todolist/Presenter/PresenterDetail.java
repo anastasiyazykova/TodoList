@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.AppCompatCheckBox;
+import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -43,31 +44,41 @@ public class PresenterDetail {
         detailNote.createDate.setText(b.getString("createDate"));
         detailNote.changeDate.setText(b.getString("changeDate"));
 
-        boolean isDone = Boolean.parseBoolean(b.getString("isDone"));
-        if (isDone) {
+        if (b.getString("isDone").equals("true")) {
             detailNote.checkBox.setChecked(true);
         } else {
             detailNote.checkBox.setChecked(false);
         }
-        fixUuid();
+
+        detailNote.checkBox.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                changeBox(detailNote.checkBox.isChecked(), detailNote.name.getText().toString());
+            }
+        });
+    }
+
+    private void changeBox(boolean b, String name) {
+        List<Task> tasks = sqliteStorage.getAllTasks();
+        Task task = null;
+        for (Task t : tasks) {
+            if (name.equals(t.getName())) {
+                task = t;
+            }
+        }
+
+        if (b) {
+            task.setIsDone("true");
+        } else {
+            task.setIsDone("false");
+        }
+
+        sqliteStorage.updateTask(name, task);
+        //recreateEvent();
     }
 
     public void deleteEvent(String name) {
         sqliteStorage.deleteTask(name);
-    }
-
-    public void fixUuid() {
-        detailNote.oldName = detailNote.name.getText().toString();
-
-        List<Task> tasks = sqliteStorage.getAllTasks();
-        Task myTask = null;
-        for (Task t : tasks) {
-            if (t.getName().equals(detailNote.oldName)) {
-                myTask = t;
-            }
-        }
-
-        detailNote.uuid = myTask.getUuid();
     }
 
     public void onChangeEvent() {
@@ -76,24 +87,16 @@ public class PresenterDetail {
         intent.putExtra("shortText", detailNote.shortText.getText().toString());
         intent.putExtra("fullText", detailNote.fullText.getText().toString());
         intent.putExtra("oldDate", detailNote.createDate.getText().toString());
-        fixUuid();
-        detailNote.startActivity(intent);
+
+        detailNote.startActivityForResult(intent, 1);
     }
 
-    public void updateEvent() {
-        Task task = sqliteStorage.getTaskByUuid(detailNote.uuid);
-
-        detailNote.name.setText(task.getName());
-        detailNote.shortText.setText(task.getShortText());
-        detailNote.fullText.setText(task.getFullText());
-        detailNote.createDate.setText(task.getDateCreate());
-        detailNote.changeDate.setText(task.getDateChange());
-
-        boolean isDone = task.getIsDone();
-        if (isDone) {
-            detailNote.checkBox.setChecked(true);
-        } else {
-            detailNote.checkBox.setChecked(false);
-        }
+    public void sendEvent() {
+        Intent sendIntent = new Intent();
+        //sendIntent.setAction(Intent.ACTION_SEND);
+        sendIntent.putExtra(Intent.EXTRA_TEXT, detailNote.fullText.getText().toString());
+        sendIntent.putExtra(Intent.EXTRA_SUBJECT, detailNote.name.getText().toString());
+        sendIntent.setType("text/plain");
+        detailNote.startActivity(Intent.createChooser(sendIntent,"Поделиться"));
     }
 }

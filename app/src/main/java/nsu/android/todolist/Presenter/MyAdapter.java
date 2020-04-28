@@ -3,11 +3,14 @@ package nsu.android.todolist.Presenter;
 import android.content.Intent;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.v7.widget.RecyclerView;
+import android.util.SparseBooleanArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.LinearLayout;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import java.util.List;
@@ -22,10 +25,26 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
     private List<Task> tasks;
     NotesList notesList;
 
+    PresenterList presenter;
+
+    boolean[] checked;
+
     public MyAdapter(List<Task> tasks, NotesList notesList) {
         this.tasks = tasks;
         this.notesList = notesList;
+        checked = new boolean[tasks.size()];
+        for (int i = 0; i < tasks.size(); i++) {
+            checked[i] = tasks.get(i).getIsDone().equals("true");
+        }
     }
+
+    void setPresenter(PresenterList presenter) {
+        this.presenter = presenter;
+    }
+
+    /*public void setTasks(List<Task> tasks) {
+        this.tasks = tasks;
+    }*/
 
     @Override
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int i) {
@@ -36,8 +55,18 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
     }
 
     @Override
-    public void onBindViewHolder(final MyViewHolder holder, int i) {
+    public void onBindViewHolder(final MyViewHolder holder, final int i) {
         final Task task = tasks.get(i);
+
+        holder.is_done.setChecked(checked[i]);
+        holder.is_done.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                checked[i] = !checked[i];
+                presenter.changeBox(checked[i], task.getName());
+            }
+        });
+
         holder.update(task);
     }
 
@@ -47,12 +76,10 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
     }
 
     class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+
         TextView item_task_name;
         TextView item_short_text;
         LinearLayout linearLayout;
-        //TextView item_full_text;
-        //TextView item_create_data;
-        //TextView item_change_data;
         CheckBox is_done;
 
         MyViewHolder(CoordinatorLayout v) {
@@ -60,26 +87,15 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
             linearLayout = v.findViewById(R.id.linear);
             item_task_name = v.findViewById(R.id.item_task_name);
             item_short_text = v.findViewById(R.id.item_short_text);
-            //item_full_text = v.findViewById(R.id.item_full_text);
-            //item_create_data = v.findViewById(R.id.item_create_data);
-            //item_change_data = v.findViewById(R.id.item_change_data);
             is_done = v.findViewById(R.id.is_done);
             linearLayout.setOnClickListener(this);
-            is_done.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    notesList.changedTask();
-                }
-            });
         }
 
         void update(Task task) {
             item_task_name.setText(task.getName());
             item_short_text.setText(task.getShortText());
-            //item_full_text.setText(task.getFullText());
-            //item_create_data.setText(task.getDateCreate());
-            //item_change_data.setText(task.getDateChange());
-             if (task.getIsDone()) {
+
+             if (task.getIsDone().equals("true")) {
                  is_done.setChecked(true);
              } else {
                  is_done.setChecked(false);

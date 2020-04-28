@@ -29,6 +29,7 @@ public class CreateNoteActivity extends AppCompatActivity {
     int flag;
     public String oldName;
     public String oldDate;
+    public String uuid;
 
     @Override
     protected void onCreate(@Nullable final Bundle savedInstanceState) {
