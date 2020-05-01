@@ -14,16 +14,13 @@ public class NotesList extends AppCompatActivity {
     PresenterList presenter;
 
     private FloatingActionButton createButton;
-    //private Button deleteButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.notes_list);
-        //ItemActivity.onCreate(savedInstanceState);
 
         createButton = findViewById(R.id.create_button);
-        //deleteButton = findViewById(R.id.delete_button);
 
         presenter = new PresenterList(this);
         presenter.onCreateEvent();
@@ -32,7 +29,6 @@ public class NotesList extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 presenter.newNoteEvent();
-                //presenter.recreateEvent();
             }
         });
     }
@@ -41,9 +37,5 @@ public class NotesList extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         presenter.recreateEvent();
-    }
-
-    public void changedTask() {
-
     }
 }

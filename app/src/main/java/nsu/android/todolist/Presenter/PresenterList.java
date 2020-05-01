@@ -18,8 +18,13 @@ public class PresenterList {
     private SQLiteStorage sqliteStorage;
 
     private RecyclerView recyclerView;
-    private MyAdapter mAdapter;
+    //private RecyclerView recyclerViewDone;
+
+    private MultipleMyAdapter mAdapter;
+    //private MyAdapter mAdapterDone;
+
     private RecyclerView.LayoutManager layoutManager;
+    //private RecyclerView.LayoutManager layoutManagerDone;
 
 
     public PresenterList(NotesList notesList) {
@@ -38,13 +43,23 @@ public class PresenterList {
 
     public void onCreateEvent() {
         recyclerView = notesList.findViewById(R.id.notes_recyc);
+        //recyclerViewDone = notesList.findViewById(R.id.notes_recyc_done);
+
         layoutManager = new LinearLayoutManager(notesList);
         recyclerView.setLayoutManager(layoutManager);
+        //layoutManagerDone = new LinearLayoutManager(notesList);
+        //recyclerViewDone.setLayoutManager(layoutManagerDone);
+
         List<Task> tasks = sqliteStorage.getAllTasks();
 
-        mAdapter = new MyAdapter(tasks, notesList);
+        mAdapter = new MultipleMyAdapter(tasks, notesList);
+        //mAdapterDone = new MyAdapter(tasks, notesList, true);
+
         recyclerView.setAdapter(mAdapter);
+        //recyclerViewDone.setAdapter(mAdapterDone);
+
         mAdapter.setPresenter(this);
+        //mAdapterDone.setPresenter(this);
     }
 
     public void recreateEvent() {
