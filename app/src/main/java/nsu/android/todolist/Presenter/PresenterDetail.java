@@ -1,14 +1,8 @@
 package nsu.android.todolist.Presenter;
 
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.v7.app.AlertDialog;
-import android.support.v7.widget.AppCompatCheckBox;
 import android.view.View;
-import android.widget.LinearLayout;
-import android.widget.TextView;
 
 import java.util.List;
 
@@ -20,7 +14,7 @@ import nsu.android.todolist.View.DetailNote;
 
 public class PresenterDetail {
     private SQLiteStorage sqliteStorage;
-    DetailNote detailNote;
+    private DetailNote detailNote;
 
     public PresenterDetail(DetailNote detailNote) {
         this.detailNote = detailNote;
@@ -33,7 +27,7 @@ public class PresenterDetail {
         setModel();
     }
 
-    public void setModel() {
+    private void setModel() {
         sqliteStorage = new SQLiteStorage(detailNote);
     }
 
@@ -74,7 +68,6 @@ public class PresenterDetail {
         }
 
         sqliteStorage.updateTask(name, task);
-        //recreateEvent();
     }
 
     public void deleteEvent(String name) {
@@ -93,7 +86,6 @@ public class PresenterDetail {
 
     public void sendEvent() {
         Intent sendIntent = new Intent();
-        //sendIntent.setAction(Intent.ACTION_SEND);
         sendIntent.putExtra(Intent.EXTRA_TEXT, detailNote.fullText.getText().toString());
         sendIntent.putExtra(Intent.EXTRA_SUBJECT, detailNote.name.getText().toString());
         sendIntent.setType("text/plain");

@@ -13,14 +13,12 @@ public class NotesList extends AppCompatActivity {
 
     PresenterList presenter;
 
-    private FloatingActionButton createButton;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.notes_list);
 
-        createButton = findViewById(R.id.create_button);
+        FloatingActionButton createButton = findViewById(R.id.create_button);
 
         presenter = new PresenterList(this);
         presenter.onCreateEvent();

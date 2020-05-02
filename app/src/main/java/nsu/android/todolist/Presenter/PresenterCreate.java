@@ -49,7 +49,7 @@ public class PresenterCreate {
         createNoteActivity.onBackPressed();
     }
 
-    public void setModel() {
+    private void setModel() {
         sqliteStorage = new SQLiteStorage(createNoteActivity);
     }
 

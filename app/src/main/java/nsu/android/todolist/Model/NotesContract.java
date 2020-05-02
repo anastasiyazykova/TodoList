@@ -8,7 +8,7 @@ public final class NotesContract extends SQLiteOpenHelper {
     private static final int DB_VERSION = 1;
     private static final String DB_NAME = "notes.db";
 
-    public NotesContract(final Context context) {
+    NotesContract(final Context context) {
         super(context, DB_NAME, null, DB_VERSION);
     }
 
@@ -29,6 +29,6 @@ public final class NotesContract extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(final SQLiteDatabase sqLiteDatabase, final int i, final int i1) {
-        //
+
     }
 }

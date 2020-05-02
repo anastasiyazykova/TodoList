@@ -8,11 +8,9 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TextInputEditText;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.view.View;
 
 import nsu.android.todolist.Presenter.PresenterCreate;
-import nsu.android.todolist.Presenter.PresenterList;
 import nsu.android.todolist.R;
 
 public class CreateNoteActivity extends AppCompatActivity {

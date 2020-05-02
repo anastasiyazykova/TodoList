@@ -11,7 +11,6 @@ import android.support.v7.widget.AppCompatCheckBox;
 import android.view.View;
 import android.widget.TextView;
 
-import nsu.android.todolist.Model.Task;
 import nsu.android.todolist.Presenter.PresenterDetail;
 import nsu.android.todolist.R;
 
@@ -77,13 +76,6 @@ public class DetailNote extends AppCompatActivity {
         });
 
     }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        //presenter.updateEvent();
-    }
-
 
     private void createAlertDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(DetailNote.this);

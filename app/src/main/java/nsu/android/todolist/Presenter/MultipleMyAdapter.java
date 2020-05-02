@@ -28,13 +28,13 @@ public class MultipleMyAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
     private NotesList notesList;
 
     private PresenterList presenter;
-    //boolean isDone;
 
-    //private int tasksDone;
+    private int posTaskShow;
     private int tasksNotDone;
 
-    public MultipleMyAdapter(List<Task> tasks, NotesList notesList) {
+    MultipleMyAdapter(List<Task> tasks, NotesList notesList) {
         tasksNotDone = 0;
+        posTaskShow = 0;
 
         List<Task> sorListTask = new ArrayList<>(tasks.size());
         for (Task t : tasks) {
@@ -89,13 +89,14 @@ public class MultipleMyAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
             ((TextViewHolder) holder).setTextDetails(i, tasksNotDone);
         }
         if (type == TYPE_TASK) {
-            ((TaskViewHolder) holder).setTaskDetails(tasks.get(i));
+            ((TaskViewHolder) holder).setTaskDetails(tasks.get(posTaskShow));
+            posTaskShow++;
         }
     }
 
     @Override
     public int getItemCount() {
-        return tasks.size();
+        return tasks.size() + 2;
     }
 
     class TaskViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
@@ -137,8 +138,20 @@ public class MultipleMyAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         @Override
         public void onClick(View v) {
             int position = getAdapterPosition();
-            if (position != RecyclerView.NO_POSITION) {
-                Task task = tasks.get(position);
+            int positionInList = 0;
+            if (position == 0 || position == tasksNotDone + 1) {
+                return;
+            }
+
+            if (position > 0 && position < tasksNotDone + 1) {
+                positionInList = position - 1;
+            }
+            if (position > tasksNotDone + 1) {
+                positionInList = position - 2;
+            }
+
+            if (positionInList != RecyclerView.NO_POSITION) {
+                Task task = tasks.get(positionInList);
                 Intent intent = new Intent(notesList, DetailNote.class);
                 intent.putExtra("name", task.getName());
                 intent.putExtra("shortText", task.getShortText());
@@ -150,7 +163,7 @@ public class MultipleMyAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
             }
         }
 
-        public void setTaskDetails(Task task) {
+        void setTaskDetails(Task task) {
             update(task);
         }
     }
@@ -163,7 +176,7 @@ public class MultipleMyAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
             text = itemView.findViewById(R.id.text_item);
         }
 
-        public void setTextDetails(int i, int tasksNotDone) {
+        void setTextDetails(int i, int tasksNotDone) {
             int posDone = tasksNotDone + 1;
             if (i == 0) {
                 text.setText("Активные:");
